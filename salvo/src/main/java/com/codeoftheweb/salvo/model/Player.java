@@ -2,11 +2,13 @@ package com.codeoftheweb.salvo.model;
 
 import com.codeoftheweb.salvo.model.Game;
 import com.codeoftheweb.salvo.model.GamePlayer;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,9 @@ public class Player {
 
     @OneToMany(mappedBy="player", fetch = FetchType.EAGER)
     Set<GamePlayer> gamePlayers = new HashSet<>();
+
+    @OneToMany(mappedBy="player", fetch = FetchType.EAGER)
+    Set<Score> scores = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setPlayer(this);
@@ -47,6 +52,15 @@ public class Player {
     public String getUserName() {
         return userName;
     }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public Optional<Score> getScore(Game game){
+        return this.scores.stream().filter(g -> g.getGame().equals(game)).findFirst();
+    }
+
 
     public void setUserName(String userName) {
         this.userName = userName;

@@ -22,6 +22,9 @@ public class Game {
     @OneToMany(mappedBy="game", fetch = FetchType.EAGER)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
+    @OneToMany(mappedBy="game", fetch = FetchType.EAGER)
+    private Set<Score> scores = new HashSet<>();
+
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setGame(this);
         gamePlayers.add(gamePlayer);
@@ -54,6 +57,8 @@ public class Game {
         this.creationDate = creationDate;
     }
 
-
+    public Set<Score> getScores() {
+        return scores;
+    }
 
 }
